@@ -108,7 +108,7 @@ export default function App() {
             : console.log("not clicked")}
         </Map>
       </div>
-      <div style={{ }}>
+      <div>
         {selectedPark ? (
           <div
             style={{
@@ -125,12 +125,13 @@ export default function App() {
                 <h1 style={{fontWeight:"250"}}>{selectedPark.name}</h1>
               </div>
               <div>
-                <button style={{ backgroundColor:"white", color:"#4acd8d", padding:"20px"}}>
+                <button style={{ backgroundColor:"white", color:"#4acd8d", padding:"10px"}}>
                   Book Ticket
                 </button>
               </div>
             </div>
           </div>
+          
         ) : (
           <div>Select</div>
         )}
