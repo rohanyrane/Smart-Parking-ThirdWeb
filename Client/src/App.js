@@ -3,34 +3,21 @@ import './App.css';
 import React, { Suspense, useState, useContext } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThirdwebProvider } from "@thirdweb-dev/react";
-
-
-// import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
-
-// import Header from './pages/Header';
-// import Progress from './pages/Progress';
-// import Landing from './pages/Landing'
-// import Generate from './pages/Generate';
 import Signup from "./pages/signup";
 import Home from "./pages/Home";
 import Signin from "./pages/signin";
 import Maps from "./pages/Maps";
-import Transaction from './pages/Transaction';
-import bookTicket from './pages/bookTicket'
-import TransactionDetail from './pages/TransactionDetail';
-// import Signin from "./pages/Signin"
-
 import AuthState from './contexts/AuthState';
 import Dashboard from './pages/Dashboard';
-import { StateContextProvider } from './context';
+
 import BookTicket from './pages/bookTicket';
-// import { AuthContext } from './contexts/AuthContext';
-// const generateClassName = createGenerateClassName({
-//     productionPrefix: 'co',
-// })
+import { StateContextProvider } from './contexts/ContractContext';
+import { Sepolia } from "@thirdweb-dev/chains";
+
+
 function App() {
   return (
-    <ThirdwebProvider activeChain="ethereum">
+    <ThirdwebProvider activeChain={Sepolia}>
        <AuthState>
         <StateContextProvider>
       <BrowserRouter>

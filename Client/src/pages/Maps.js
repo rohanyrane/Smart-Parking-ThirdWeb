@@ -1,25 +1,48 @@
-// import * as React from 'react';
-// import Map from 'react-map-gl';
-
-// function Maps() {
-//   return <Map
-//     initialViewState={{
-//       longitude: -100,
-//       latitude: 40,
-//       zoom: 3.5
-//     }}
-//     mapboxAccessToken= "pk.eyJ1IjoibGF1a2lrMTczMiIsImEiOiJjbGgxc2g2azExNmUzM3NxdjlmM2g4aWFyIn0.smJqv8kInlS-Rfa7j80gfA"
-//     style={{width: 600, height: 400}}
-//     mapStyle="mapbox://styles/mapbox/streets-v9"
-//   />;
-// }
-// export default Maps;
-
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
 import React, { useState, useEffect } from "react";
 import Map, { Marker, Popup } from "react-map-gl";
 import { parkingSpaces } from "../constants/parkingspaces";
+import { ethers } from 'ethers';
 
-export default function App() {
+import { createTheme } from "@mui/material";
+import { useStateContext } from "../contexts/ContractContext";
+
+export default function Maps() {
+  const theme = createTheme();
+  const { buyTicket } = useStateContext();
+  const [form, setForm] = useState({
+    address: "",
+    zone: 0,
+    duration: 0,
+  });
+const [duration,setDuration]=useState(0)
+  const handleFormFieldChange = (fieldName, e) => {
+    setForm({ ...form, [fieldName]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    console.log(duration)
+    e.preventDefault();
+    const form = {
+      zone: 1,
+      duration,
+      plate:"MH2002"
+    };
+    console.log(form);
+    await buyTicket({...form,target: ethers.utils.parseUnits(form.target, 18)} ); 
+  };
+
   const [viewport, setViewport] = useState({
     latitude: 45.4211,
     longitude: -75.6903,
@@ -27,6 +50,7 @@ export default function App() {
     height: "100vh",
     zoom: 10,
   });
+  
   const [selectedPark, setSelectedPark] = useState(null);
 
   useEffect(() => {
@@ -110,28 +134,27 @@ export default function App() {
       </div>
       <div>
         {selectedPark ? (
-          <div
-            style={{
-              backgroundColor: "#4acd8d",
-              borderRadius: "5px",
-              borderWidth: "2px",
-              padding: "10px",
-              color: "white",
-              margin: "10px 0px",
-            }}
+          <form
+            onSubmit={handleSubmit}
+            className="w-full mt-[65px] flex flex-col gap-[30px]"
           >
-            <div style={{ display:"flex",alignItems:"center", justifyContent:"space-between"}}>
-              <div>
-                <h1 style={{fontWeight:"250"}}>{selectedPark.name}</h1>
-              </div>
-              <div>
-                <button style={{ backgroundColor:"white", color:"#4acd8d", padding:"10px"}}>
-                  Book Ticket
-                </button>
-              </div>
+            <div
+              onSubmit={handleSubmit}
+              className="w-full mt-[65px] flex flex-col gap-[30px]"
+            >
+              <input
+                style={{ color: "black" }}
+                required
+                onChange={(e) => handleFormFieldChange('duration', e)}
+                step="0.1"
+                placeholder="Enter the duratrion"
+                className="py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[14px] placeholder:text-[#4b5264] rounded-[10px] sm:min-w-[300px]"
+              />
             </div>
-          </div>
-          
+            <button type="submit">
+              Click me
+            </button>
+          </form>
         ) : (
           <div>Select</div>
         )}

@@ -4,14 +4,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { logo, menu, search, thirdweb } from '../assets';
 import { navlinks } from '../constants';
 import CustomButton from './CustomButton';
-import { useStateContext } from '../context';
+
 import { ConnectWallet } from '@thirdweb-dev/react';
+import { useStateContext } from '../contexts/ContractContext';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState('dashboard');
   const [toggleDrawer, setToggleDrawer] = useState(false);
-  const {connect,address } = useStateContext();
+  const {address } = useStateContext();
 
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
@@ -81,15 +82,7 @@ const Navbar = () => {
             </ul>
 
             <div className="flex mx-4">
-            <CustomButton 
-              btnType="button"
-              title={address ? 'Create a campaign' : 'Connect'}
-              styles={address ? 'bg-[#1dc071]' : 'bg-[#8c6dfd]'}
-              handleClick={() => {
-                if(address) navigate('create-campaign')
-                else connect();
-              }}
-            />
+           
             
             </div>
             <div>
